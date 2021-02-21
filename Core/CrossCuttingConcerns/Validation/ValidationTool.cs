@@ -10,11 +10,12 @@ namespace Core.CrossCuttingConcerns.Validation
                                                                            //Oluşturduğumuz ProductValidator a inherit ettiğimiz AbstractValidator F12 ile içerisine gidildiğinde içinde bir IValidator bulundurduğunu gördük.O da Validate i bulunduruyordu. 
         public static void Validate(IValidator validator,object entity)              //IValidator ün Ampulünden Install package 'FluentValidation' Use local version 9.5.1 i seçtik.
         {                                                                            //herşey gelebilsin diye (Entity ,Dto ...) object yazdık.(satır11)
-            var context = new ValidationContext<Object>(entity);                     
-            
-            var result = validator.Validate(context);
+                                                                                  // Bir Validation yapılacağı zaman aşağıdaki kodlar standart dır.
+             var context = new ValidationContext<Object>(entity);              //Burdaki context ilgili bir tiredi anlatır.(Aynı Entity Framework gibi)//Bu satırda entity için doğrulama yapıcağımızı belirttik.        
+
+            var result = validator.Validate(context);                          //verilen validator deki kuralları kullanarak ilgili contexti Validate et.
             if (!result.IsValid)
-            {
+            {                                                               //Sonuç geçerli değilse hata fırlat.
                 throw new ValidationException(result.Errors);
             }
 

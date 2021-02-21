@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -23,9 +24,10 @@ namespace Business.Concrete                  //Eğer Manager görürseniz bu iş
             _productDal = productDal;
         }
 
-        [ValidationAspect(typeof(ProductValidator))]              //Add metodunu doğrula ProductValidator deki kurallara göre
+        [ValidationAspect(typeof(ProductValidator))]              //Add metodunu doğrula ProductValidator daki kuralları kullanarak.
         public IResult Add(Product product)
         {
+                 
             //Business codes
             //validation                                         //eklenmesini istediğiniz nesne nin yapısı ile ilgili doğrulamayı yapan kodlar validation kodlarıdır.
             
