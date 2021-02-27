@@ -5,11 +5,11 @@ namespace Core.Utilities.Interceptors
 {
     public abstract class MethodInterception : MethodInterceptionBaseAttribute                 //Burası artık bizim bütün metotlarımızın çatısı.Çalıştırdığımız metotlar önce bu aşağıdaki kurallardan geçecek.
     {
-        protected virtual void OnBefore(IInvocation invocation) { }
-        protected virtual void OnAfter(IInvocation invocation) { }
+        protected virtual void OnBefore(IInvocation invocation) { }                         //genel bilgi :Virtual metodlar senin ezmeni bekleyen metodlardır.
+        protected virtual void OnAfter(IInvocation invocation) { }                         //Biz bir Aspect yazdığımız zaman onun nerede çalışsın istiyorsak gidip onun ilgili metodlarını eziyoruz.(OnBefore,OnAfter vs..) 
         protected virtual void OnException(IInvocation invocation, System.Exception e) { }
         protected virtual void OnSuccess(IInvocation invocation) { }
-        public override void Intercept(IInvocation invocation)               //Buradaki invocation bizim metodumuz oluyor(örneğin add)
+        public override void Intercept(IInvocation invocation)               //Buradaki invocation bizim metodumuz oluyor(örneğin Add)
         {
             var isSuccess = true;
             OnBefore(invocation);                                           //Metotdan önce çalışsın.                    

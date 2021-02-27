@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Autofac.Extras.DynamicProxy;
 using Business.Abstract;
+using Business.CCS;
 using Business.Concrete;
 using Castle.DynamicProxy;
 using Core.Utilities.Interceptors;
@@ -19,6 +20,10 @@ namespace Business.DependencyResolvers.Autofac                           //Autof
             builder.RegisterType<ProductManager>().As<IProductService>().SingleInstance();             //Birisi senden IProductService isterse ona bir tane ProductManager Instance 'ı ver.
             builder.RegisterType<EfProductDal>().As<IProductDal>().SingleInstance();                   //SingleInstance tek bir Instance oluşturuyor herkese onu veriyor.Çünkü bunlar referans tip bellekteki tek bir referans numarasını herkese veriyor.İçerisinde data tutmaz sadece operasyon çağırmaya yarar.Data taşır ama tutmaz.
                                                                                                        //Bu yaptığımız işlemler WebAPI daki Startup da yapılanların Autofac karşılığıdır.Orda yazılanla aynı anlamdadır.
+
+            builder.RegisterType<CategoryManager>().As<ICategoryService>().SingleInstance();
+            builder.RegisterType<EfCategoryDal>().As<ICategoryDal>().SingleInstance();
+
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
