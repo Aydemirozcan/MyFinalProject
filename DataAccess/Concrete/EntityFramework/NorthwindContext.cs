@@ -1,4 +1,5 @@
-﻿using Entities.Concrete;
+﻿using Core.Entities.Concrete;
+using Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,5 +19,10 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<Category> Categories { get; set; }                                                                           //Ek bilgi : Trusted_connection=true ile instrested security true aynı şeydir.   
         public DbSet<Customer> Customers { get; set; }                                     //hangi nesneyi hangisiyle bağlayacağımızı belirttik(Dbset nesnesini kullanarak) (Hangi tablo hangi class a denk gelecek onu belirttik) 
         public DbSet<Order> Orders { get; set; }
+
+        public DbSet<OperationClaim> OperationClaims { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
+
     }
 }
