@@ -12,7 +12,7 @@ namespace Core.Utilities.Ioc
         public static IServiceCollection Create(IServiceCollection services)   //.Net in Service lerini al ve onları build et
         {
             ServiceProvider = services.BuildServiceProvider();
-            return services;
-        }
-    }
+            return services;                                                   //Bağımlılık webapi business dataccess diye gittiği için aspect bu zincirin içinde kalmıyor bizde Coredaki instanceleri çekebilmek için  Servicetool yazdık.
+        }                                                                      //Bunu da ICoreModule a enjekte ettik.
+    }                                                                          //Bu zincirin içinde olmayan intanceleri bu şekilde getiriyoruz.
 }

@@ -14,7 +14,7 @@ namespace Core.Utilities.Security.JWT
 {
     public class JwtHelper : ITokenHelper
     {
-        public IConfiguration Configuration { get; }     //Apideki Appsettings i okumana yarıyor.
+        public IConfiguration Configuration { get; }     //Apideki appsettings i okumana yarıyor.
         private TokenOptions _tokenOptions;              //Appsetting den okuduğumuz değerleri bu nesneye atacağız.
         private DateTime _accessTokenExpiration;          //AccessToken ne zaman geçersizleşecek onu veriyor.
         public JwtHelper(IConfiguration configuration)    //.Net Corun verdiği bu konfigürasyon nesnesini enjekte ettik.
@@ -29,7 +29,7 @@ namespace Core.Utilities.Security.JWT
             var securityKey = SecurityKeyHelper.CreateSecurityKey(_tokenOptions.SecurityKey);           //Bunu oluştururken bir securityKey e ihtiyacımız olacak.Yazdığımız SecurityKeyHelper ın CreateSecurityKey ine tokenOptions daki SecurityKey i kullanarak onu oluşturabilirsin.
             var signingCredentials = SigningCredentialsHelper.CreateSigningCredentials(securityKey);    //Hangi algoritmayı kullanayım ve anahtar nedir? ---Bunun içinde SigningCredentialHelper diye birşey yazdık onun içinde onlar var 
             var jwt = CreateJwtSecurityToken(_tokenOptions, user, signingCredentials, operationClaims);   // CreateJwtSecurityToken : tokeOptions u kullanarak ilgili kullanıcı için ilgili Credentials kullanarak  bu kullanıcıya atanacak yetkileri içeren bir metotdur.
-            var jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
+            var jwtSecurityTokenHandler = new JwtSecurityTokenHandler();                              //Modeltokenjwt den geliyor
             var token = jwtSecurityTokenHandler.WriteToken(jwt);
 
             return new AccessToken
@@ -47,7 +47,7 @@ namespace Core.Utilities.Security.JWT
                 issuer: tokenOptions.Issuer,
                 audience: tokenOptions.Audience,
                 expires: _accessTokenExpiration,
-                notBefore: DateTime.Now,
+                notBefore: DateTime.Now,                      //Token ın Expiration bilgisi şuandan önce ise geçerli değil.
                 claims: SetClaims(user, operationClaims),       //Claim ler içinde aşağıda bir metod yapılmış.
                 signingCredentials: signingCredentials
             );

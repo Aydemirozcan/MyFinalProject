@@ -1,5 +1,7 @@
 using Business.Abstract;
 using Business.Concrete;
+using Core.DependencyResolvers;
+using Core.Extensions;
 using Core.Utilities.Ioc;
 using Core.Utilities.Security.Encryption;
 using Core.Utilities.Security.JWT;
@@ -43,13 +45,13 @@ namespace WebAPI
                                                                            //Yani sonuç olarak Biri bizden ctor da IProductService isterse bu da (services.AddSingleton<IProductService,ProductManager>(); ) bize ProductManageri newleyip verir.
 
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            
             var tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();   //Asp.net webAPI ' a bu sistemde autotantikasyon olarak JWTBearerToken kullanýlacak diye belirttiðimiz yerdir.
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
-                    options.TokenValidationParameters=new TokenValidationParameters
+                    options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = true,
                         ValidateAudience = true,
@@ -61,7 +63,9 @@ namespace WebAPI
                     };
                 });
 
-            ServiceTool.Create(services);
+            services.AddDependencyResolvers(new ICoreModule[] {        //AddDependencyResolvers   ý CoreModul gibi baþka Modul leride ekleyebilmek için yazdýk.
+                new CoreModule()
+                });
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

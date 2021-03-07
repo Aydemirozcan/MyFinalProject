@@ -3,6 +3,9 @@ using Business.BusinessAspects.Autofac;
 using Business.CCS;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Business;
@@ -30,8 +33,9 @@ namespace Business.Concrete                  //Eğer Manager görürseniz bu iş
             _categoryService = categoryService;
         }
 
-        [SecuredOperation("Product.Add")]
+        [SecuredOperation("product.add,admin")]
         [ValidationAspect(typeof(ProductValidator))]              //Add metodunu doğrula ProductValidator daki kuralları kullanarak.
+        [CacheRemoveAspect("IproductService.Get")]
         public IResult Add(Product product)
         {
 
@@ -55,7 +59,8 @@ namespace Business.Concrete                  //Eğer Manager görürseniz bu iş
              return new SuccessResult(Messages.ProductAdded);                          //Bu yüzden buraya return yazdık ve Result ın içindekileri döndürüyor.
 
         }
-
+        [CacheAspect]
+        [PerformanceAspect(5)]
         public IDataResult<List<Product>>GetAll()
         {
             //iş kodları
@@ -73,7 +78,8 @@ namespace Business.Concrete                  //Eğer Manager görürseniz bu iş
         {
             return new SuccessDataResult<List<Product>>(_productDal.GetAll(p => p.CategoryId == id));
         }
-
+        
+        [CacheAspect]
         public IDataResult<Product> GetById(int productId)
         {
             return new SuccessDataResult<Product>(_productDal.Get(p => p.ProductId == productId));                     //SuccessDataResult içinde Product var.Onun da ctor una   _productDal.Get(p => p.ProductId == productId) gönderiryorsun.
@@ -84,13 +90,14 @@ namespace Business.Concrete                  //Eğer Manager görürseniz bu iş
 
             return new SuccessDataResult<List<Product>>(_productDal.GetAll(p => p.UnitPrice <= min && p.UnitPrice <= max));
         }
-
+      
         public IDataResult<List<ProductDetailDto>> GetProductDetails()
         {
             return new SuccessDataResult<List<ProductDetailDto>>(_productDal.GetProductDetails());
         }
 
         [ValidationAspect(typeof(ProductValidator))]
+        [CacheRemoveAspect("ICroductService.Get")]  //eğer sadece içeriye Get yazsaydık gidip tüm getleri silerdi 
         public IResult Update(Product product)
         {
             var result = _productDal.GetAll(p => p.CategoryId == product.CategoryId).Count;
@@ -134,7 +141,10 @@ namespace Business.Concrete                  //Eğer Manager görürseniz bu iş
             return new SuccessResult();                                                         
 
         }
-
-
+        //[TransactionScopeAspect]
+        //public IResult AddTransactionalTest(Product product)
+        //{
+            
+        //}
     }
 }

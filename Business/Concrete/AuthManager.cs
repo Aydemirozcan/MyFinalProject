@@ -22,7 +22,7 @@ namespace Business.Concrete
         public IDataResult<User> Register(UserForRegisterDto userForRegisterDto, string password)   //Kayıt olmak için gerekli olan operasyon
         {
             byte[] passwordHash, passwordSalt;
-            HashingHelper.CreatePasswordHash(password, out passwordHash, out passwordSalt);   //password hash ve saltı kullanrak şifreyi gönderip hash oluşturduk.
+            HashingHelper.CreatePasswordHash(password, out passwordHash, out passwordSalt);   //password hash ve saltı kullanarak şifreyi gönderip hash oluşturduk.
             var user = new User                                                               //Bir User nesnesi oluşturduk.Ve ekledik.
             {
                 Email = userForRegisterDto.Email,

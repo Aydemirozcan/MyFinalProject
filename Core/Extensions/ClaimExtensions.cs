@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Claims;
+using System.Security.Claims;                    
 using System.Text;
 
-namespace Core.Extensions
+namespace Core.Extensions                           //AMAÇ:   Claim lerin bulunduğu listeye ilgili alanları aktarmak... Bu işi kolaylaştırmak adına da extensions tanımladır. Örneğin,  List<x> nesnesi üzerinde Add, Remove, Count gibi metotlara kolayca ulaşıyoruz ya, bu şekilde ulaşabilmek adına biz de kendi extensions larımızı hazırladık.
 {
     public static class ClaimExtensions
     {
-        public static void AddEmail(this ICollection<Claim> claims, string email)      //Böyle bir şey görürseniz bu metod Claim in içine eklenecek demektir.Claim de ICollection da bize ait değil.Net de var bunlar biz de istediğimiz metodları içine ekleyebiliyoruz.
+        public static void AddEmail(this ICollection<Claim> claims, string email)      //Böyle bir şey görürseniz bu metod Claim in içine eklenecek demektir.Claim de ICollection da bize ait değil .Net de var bunlar biz de istediğimiz metodları içine ekleyebiliyoruz.
 
         {
             claims.Add(new Claim(JwtRegisteredClaimNames.Email, email));
